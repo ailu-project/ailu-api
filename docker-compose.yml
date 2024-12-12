@@ -1,0 +1,46 @@
+services:
+  api:
+    container_name: ailu-api-dev
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./:/usr/src/app/
+      - ./tmp:/usr/src/app/tmp/
+    env_file:
+      - ./.env.example
+    ports:
+        - "8000:8000"
+    depends_on:
+      - db
+  db:
+    container_name: ailu-db-dev
+    image: postgres:16.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_DB=ailu
+  pgadmin:
+    container_name: ailu-pgadmin
+    image: dpage/pgadmin4:latest
+    env_file:
+      - ./.env.example
+    ports:
+        - "5050:80"
+    depends_on:
+      - db
+
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: always
+    ports:
+      - "9000:9000"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"  
+      - portainer_data:/data 
+
+volumes:
+  postgres_data:
+  portainer_data:
