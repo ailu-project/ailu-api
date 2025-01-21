@@ -2,7 +2,7 @@ package org.ailu.api.controller;
 
 import org.ailu.api.dto.AdicionaItensDTO;
 import org.ailu.api.dto.ListaComprasDTO;
-import org.ailu.api.entity.listaCompras.ListaCompras;
+import org.ailu.api.entity.ListaComprasEntity;
 import org.ailu.api.service.ListaComprasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,36 +20,36 @@ public class ListaComprasController {
 
 
     @PostMapping
-    public ResponseEntity<ListaCompras> criaLista(@RequestBody ListaComprasDTO dto) {
+    public ResponseEntity<ListaComprasEntity> criaLista(@RequestBody ListaComprasDTO dto) {
         try {
-            ListaCompras novaLista = listaComprasService.criaListaCompras(dto);
+            ListaComprasEntity novaLista = listaComprasService.criaListaCompras(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body(novaLista);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
     @GetMapping
-    public List<ListaCompras> allListas() {
+    public List<ListaComprasEntity> allListas() {
         return listaComprasService.findAllListaCompras();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ListaCompras> buscaLista(@PathVariable Long id) {
+    public ResponseEntity<ListaComprasEntity> buscaLista(@PathVariable Long id) {
         return ResponseEntity.ok(listaComprasService.buscaListaComprasPorId(id).orElse(null));
     }
 
     @PutMapping("/{listaId}/itens")
-    public ResponseEntity<ListaCompras> adicionaItens(@PathVariable Long listaId, @RequestBody AdicionaItensDTO dto) {
+    public ResponseEntity<ListaComprasEntity> adicionaItens(@PathVariable Long listaId, @RequestBody AdicionaItensDTO dto) {
         try {
-            ListaCompras listaAtualizada = listaComprasService.adicionaItens(listaId, dto);
+            ListaComprasEntity listaAtualizada = listaComprasService.adicionaItens(listaId, dto);
             return ResponseEntity.ok(listaAtualizada);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
     @GetMapping("/usuario/{usuarioId}")
-    public ResponseEntity<List<ListaCompras>> getListasByUsuarioId(@PathVariable Long usuarioId) {
-        List<ListaCompras> listas = listaComprasService.getListasComprasByUsuarioId(usuarioId);
+    public ResponseEntity<List<ListaComprasEntity>> getListasByUsuarioId(@PathVariable Long usuarioId) {
+        List<ListaComprasEntity> listas = listaComprasService.getListasComprasByUsuarioId(usuarioId);
 
         if (listas.isEmpty()) {
             return ResponseEntity.notFound().build();

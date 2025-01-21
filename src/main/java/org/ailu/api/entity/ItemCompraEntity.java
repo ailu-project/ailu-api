@@ -1,4 +1,4 @@
-package org.ailu.api.entity.listaCompras;
+package org.ailu.api.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @Data
-public class ItemCompra {
+public class ItemCompraEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,7 +15,7 @@ public class ItemCompra {
     @Column(nullable = false)
     private String nome;
 
-    public ItemCompra() {
+    public ItemCompraEntity() {
 
     }
 

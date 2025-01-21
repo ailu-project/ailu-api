@@ -4,8 +4,8 @@ import jakarta.transaction.Transactional;
 import org.ailu.api.dto.AdicionaItensDTO;
 import org.ailu.api.dto.ListaComprasDTO;
 import org.ailu.api.entity.UsuarioEntity;
-import org.ailu.api.entity.listaCompras.ItemCompra;
-import org.ailu.api.entity.listaCompras.ListaCompras;
+import org.ailu.api.entity.ItemCompraEntity;
+import org.ailu.api.entity.ListaComprasEntity;
 import org.ailu.api.repository.ListaComprasRepository;
 import org.ailu.api.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class  ListaComprasService {
@@ -25,44 +24,44 @@ public class  ListaComprasService {
     private UsuarioRepository usuarioRepository;
 
 
-    public ListaCompras criaListaCompras(ListaComprasDTO dto) {
+    public ListaComprasEntity criaListaCompras(ListaComprasDTO dto) {
         UsuarioEntity usuario = usuarioRepository.findById(dto.getUsuarioId())
                 .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado com ID: " + dto.getUsuarioId()));
 
-        ListaCompras listaCompras = new ListaCompras();
-        listaCompras.setNome(dto.getNome());
-        listaCompras.setUsuarioEntity(usuario);
-        listaCompras.setItens(List.of());
+        ListaComprasEntity listaComprasEntity = new ListaComprasEntity();
+        listaComprasEntity.setNome(dto.getNome());
+        listaComprasEntity.setUsuarioEntity(usuario);
+        listaComprasEntity.setItens(List.of());
 
         // Salvar a lista no banco
-        return listaComprasRepository.save(listaCompras);
+        return listaComprasRepository.save(listaComprasEntity);
     }
 
-    public List<ListaCompras> findAllListaCompras() {
+    public List<ListaComprasEntity> findAllListaCompras() {
         return listaComprasRepository.findAll();
     }
 
-    public Optional<ListaCompras> buscaListaComprasPorId(Long id) {
+    public Optional<ListaComprasEntity> buscaListaComprasPorId(Long id) {
         return listaComprasRepository.findById(id);
     }
 
-    public List<ListaCompras> getListasComprasByUsuarioId(Long usuarioId) {
+    public List<ListaComprasEntity> getListasComprasByUsuarioId(Long usuarioId) {
         return listaComprasRepository.findByUsuarioEntity_Id(usuarioId);
     }
     @Transactional
-    public ListaCompras adicionaItens(Long listaId, AdicionaItensDTO dto) {
-        ListaCompras listaCompras = listaComprasRepository.findById(listaId)
+    public ListaComprasEntity adicionaItens(Long listaId, AdicionaItensDTO dto) {
+        ListaComprasEntity listaComprasEntity = listaComprasRepository.findById(listaId)
                 .orElseThrow(() -> new IllegalArgumentException("Lista de compras não encontrada com ID: " + listaId));
-        List<ItemCompra> novosItens = dto.getItens().stream()
+        List<ItemCompraEntity> novosItens = dto.getItens().stream()
                 .map(itemDTO -> {
-                    ItemCompra itemCompra = new ItemCompra();
-                    itemCompra.setComprado(itemDTO.isComprado());
-                    itemCompra.setNome(itemDTO.getNome());
-                    return itemCompra;
+                    ItemCompraEntity itemCompraEntity = new ItemCompraEntity();
+                    itemCompraEntity.setComprado(itemDTO.isComprado());
+                    itemCompraEntity.setNome(itemDTO.getNome());
+                    return itemCompraEntity;
                 }).toList();
-        listaCompras.getItens().addAll(novosItens);
+        listaComprasEntity.getItens().addAll(novosItens);
 
-        return listaComprasRepository.save(listaCompras);
+        return listaComprasRepository.save(listaComprasEntity);
     }
     public void deleteListaCompras(Long id) {
         if (!listaComprasRepository.existsById(id)) {

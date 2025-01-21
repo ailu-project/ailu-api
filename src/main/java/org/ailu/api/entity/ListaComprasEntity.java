@@ -1,9 +1,8 @@
-package org.ailu.api.entity.listaCompras;
+package org.ailu.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
-import org.ailu.api.entity.UsuarioEntity;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class ListaCompras {
+public class ListaComprasEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,7 +29,7 @@ public class ListaCompras {
     private UsuarioEntity usuarioEntity;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ItemCompra> itens;
+    private List<ItemCompraEntity> itens;
 
     public Long getId() {
         return id;
@@ -56,11 +55,11 @@ public class ListaCompras {
         this.usuarioEntity = usuarioEntity;
     }
 
-    public List<ItemCompra> getItens() {
+    public List<ItemCompraEntity> getItens() {
         return itens;
     }
 
-    public void setItens(List<ItemCompra> itens) {
+    public void setItens(List<ItemCompraEntity> itens) {
         this.itens = itens;
     }
 }
