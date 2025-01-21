@@ -1,17 +1,14 @@
-package org.ailu.api.entity.usuario;
+package org.ailu.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
-import org.ailu.api.dto.usuario.UsuarioDTO;
+import org.ailu.api.dto.UsuarioDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.beans.BeanUtils;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
-import java.time.ZoneId;
 import java.util.Date;
 
 @Entity
@@ -20,7 +17,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Usuario {
+public class UsuarioEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,28 +38,28 @@ public class Usuario {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public Usuario(UsuarioDTO usuario) {
+    public UsuarioEntity(UsuarioDTO usuario) {
         BeanUtils.copyProperties(usuario, this);
     }
-    public  Usuario(){}
-    public void update(Usuario usuario) {
-        if(usuario.getCpf() != null) {
-            this.cpf = usuario.getCpf();
+    public UsuarioEntity(){}
+    public void update(UsuarioEntity usuarioEntity) {
+        if(usuarioEntity.getCpf() != null) {
+            this.cpf = usuarioEntity.getCpf();
         }
-        if(usuario.getNome() != null) {
-            this.nome = usuario.getNome();
+        if(usuarioEntity.getNome() != null) {
+            this.nome = usuarioEntity.getNome();
         }
-        if(usuario.getDataNascimento() != null) {
-            this.dataNascimento = usuario.getDataNascimento();
+        if(usuarioEntity.getDataNascimento() != null) {
+            this.dataNascimento = usuarioEntity.getDataNascimento();
         }
-        if(usuario.getImage() != null) {
-            this.image = usuario.getImage();
+        if(usuarioEntity.getImage() != null) {
+            this.image = usuarioEntity.getImage();
         }
-        if(usuario.getSenha() != null) {
-            this.senha = usuario.getSenha();
+        if(usuarioEntity.getSenha() != null) {
+            this.senha = usuarioEntity.getSenha();
         }
-        if(usuario.getEmail() != null) {
-            this.email = usuario.getEmail();
+        if(usuarioEntity.getEmail() != null) {
+            this.email = usuarioEntity.getEmail();
         }
         this.updatedAt = LocalDateTime.now();
 

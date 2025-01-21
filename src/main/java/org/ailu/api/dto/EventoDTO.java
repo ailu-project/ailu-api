@@ -1,7 +1,7 @@
-package org.ailu.api.dto.calendario;
+package org.ailu.api.dto;
 
 import lombok.Data;
-import org.ailu.api.entity.calendario.Evento;
+import org.ailu.api.entity.EventoEntity;
 import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDateTime;
@@ -14,8 +14,8 @@ public class EventoDTO {
         private String descricao;
         private LocalDateTime inicio;
         private LocalDateTime fim;
-        public EventoDTO(Evento evento) {
-            BeanUtils.copyProperties(evento, this);
+        public EventoDTO(EventoEntity eventoEntity) {
+            BeanUtils.copyProperties(eventoEntity, this);
         }
 
     public EventoDTO() {

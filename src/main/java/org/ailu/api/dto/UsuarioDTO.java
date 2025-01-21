@@ -1,7 +1,6 @@
-package org.ailu.api.dto.usuario;
+package org.ailu.api.dto;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.ailu.api.entity.usuario.Usuario;
+import org.ailu.api.entity.UsuarioEntity;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
@@ -14,8 +13,8 @@ public class UsuarioDTO {
     private String email;
     private String senha;
 
-    public UsuarioDTO(Usuario usuario) {
-        BeanUtils.copyProperties(usuario, this);
+    public UsuarioDTO(UsuarioEntity usuarioEntity) {
+        BeanUtils.copyProperties(usuarioEntity, this);
     }
     public UsuarioDTO() {
     }

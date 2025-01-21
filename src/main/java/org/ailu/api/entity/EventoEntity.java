@@ -1,10 +1,9 @@
-package org.ailu.api.entity.calendario;
+package org.ailu.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
-import org.ailu.api.dto.calendario.EventoDTO;
-import org.ailu.api.entity.usuario.Usuario;
+import org.ailu.api.dto.EventoDTO;
 import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDateTime;
@@ -15,7 +14,7 @@ import java.time.LocalDateTime;
 @Data
 @Table(name = "calendario")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Evento {
+public class EventoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,17 +26,17 @@ public class Evento {
                     foreignKeyDefinition = "FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE"
             )
     )
-    private Usuario usuario;
+    private UsuarioEntity usuarioEntity;
     private String titulo;
     private String descricao;
     private LocalDateTime inicio;
     private LocalDateTime fim;
 
-    public Evento(EventoDTO eventoDTO) {
+    public EventoEntity(EventoDTO eventoDTO) {
         BeanUtils.copyProperties(eventoDTO, this);
     }
 
-    public Evento() {
+    public EventoEntity() {
     }
 
     public Long getId() {
@@ -48,12 +47,12 @@ public class Evento {
         this.id = id;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public UsuarioEntity getUsuarioEntity() {
+        return usuarioEntity;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUsuarioEntity(UsuarioEntity usuarioEntity) {
+        this.usuarioEntity = usuarioEntity;
     }
 
     public String getTitulo() {
