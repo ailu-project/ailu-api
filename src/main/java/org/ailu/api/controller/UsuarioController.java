@@ -67,4 +67,11 @@ public class UsuarioController {
         Optional<UsuarioEntity> usuario = usuarioService.getUserById(id);
         return usuario.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+    @GetMapping("/login")
+    public ResponseEntity<Boolean> login(@RequestParam String email, @RequestParam String password) {
+        if (usuarioService.loginUser(email, password)) {
+            return ResponseEntity.ok(true);
+        }
+        else return ResponseEntity.notFound().build();
+    }
 }

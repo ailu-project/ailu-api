@@ -48,4 +48,11 @@ public class UsuarioService {
         usuarioEntity.setAtivo(false);
         usuarioRepository.save(usuarioEntity);
     }
+    public boolean loginUser(String email, String password) {
+        UsuarioEntity usuarioEntity = getUserByEmail(email);
+        if(usuarioEntity != null) {
+            return usuarioEntity.getSenha().equals(password);
+        }
+        return false;
+    }
 }

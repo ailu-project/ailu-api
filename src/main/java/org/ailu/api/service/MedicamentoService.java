@@ -1,10 +1,8 @@
 package org.ailu.api.service;
 
 import org.ailu.api.dto.MedicamentoDTO;
-import org.ailu.api.entity.AlarmeEntity;
 import org.ailu.api.entity.MedicamentoEntity;
 import org.ailu.api.entity.UsuarioEntity;
-import org.ailu.api.repository.AlarmeRepository;
 import org.ailu.api.repository.MedicamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,23 +15,14 @@ public class MedicamentoService {
 
     @Autowired
     private MedicamentoRepository medicamentoRepository;
-
-    @Autowired
-    private AlarmeRepository alarmeRepository;
+    
 
     public MedicamentoDTO criarMedicamento(MedicamentoDTO medicamentoDTO) {
         MedicamentoEntity medicamento = new MedicamentoEntity();
         medicamento.setNome(medicamentoDTO.getNome());
         medicamento.setDescricao(medicamentoDTO.getDescricao());
         medicamento.setFimDaMedicacao(medicamentoDTO.getFimDaMedicacao());
-
-        // Criar o alarme, se fornecido
-        if (medicamentoDTO.getAlarme() != null) {
-            AlarmeEntity alarme = new AlarmeEntity();
-            alarme.setHora(medicamentoDTO.getAlarme().getHora());
-            alarme = alarmeRepository.save(alarme);
-            medicamento.setAlarmeEntity(alarme);
-        }
+        medicamento.setAlarmeEntity(medicamentoDTO.getAlarme());
         UsuarioEntity usuario = new UsuarioEntity();
         usuario.setId(medicamentoDTO.getUsuarioId());
         medicamento.setUsuarioEntity(usuario);
